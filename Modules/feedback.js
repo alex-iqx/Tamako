@@ -26,7 +26,7 @@ module.exports = {
         const confirmEmbed = new EmbedBuilder()
             .setTitle(`${guildName} • Feedback`)
             .setDescription('Are you sure you want to send this message?')
-            .setColor(0xF9E79F)
+            .setColor(0xFFFFFF)
             .setThumbnail(client.user.displayAvatarURL());
 
         const row = new ActionRowBuilder().addComponents(
@@ -64,7 +64,7 @@ module.exports = {
                             embeds: [new EmbedBuilder()
                                 .setTitle(`${guildName} • Feedback`)
                                 .setDescription('I cannot send your feedback right now.')
-                                .setColor(0xE74C3C)
+                                .setColor(0xFFFFFF)
                                 .setThumbnail(client.user.displayAvatarURL())]
                         }).catch(() => {});
                         return;
@@ -84,7 +84,7 @@ module.exports = {
                     const finalEmbed = new EmbedBuilder()
                         .setTitle('You have received a feedback!')
                         .setDescription(feedback.slice(0, 4096))
-                        .setColor(0xF9E79F)
+                        .setColor(0xFFFFFF)
                         .setThumbnail(client.user.displayAvatarURL())
                         .setFooter({ text: `Received at: ${formattedDate}` });
 
@@ -94,7 +94,7 @@ module.exports = {
                         embeds: [new EmbedBuilder()
                             .setTitle(`${guildName} • Feedback`)
                             .setDescription('Your feedback has been sent successfully. Thank you!')
-                            .setColor(0x2ECC71)
+                            .setColor(0xFFFFFF)
                             .setThumbnail(client.user.displayAvatarURL())]
                     }).catch(() => {});
                 } catch {
@@ -102,7 +102,7 @@ module.exports = {
                         embeds: [new EmbedBuilder()
                             .setTitle(`${guildName} • Feedback`)
                             .setDescription('An error occurred while sending your feedback.')
-                            .setColor(0xE74C3C)
+                            .setColor(0xFFFFFF)
                             .setThumbnail(client.user.displayAvatarURL())]
                     }).catch(() => {});
                 }
@@ -111,7 +111,7 @@ module.exports = {
                     embeds: [new EmbedBuilder()
                         .setTitle(`${guildName} • Feedback`)
                         .setDescription('Feedback sending has been cancelled.')
-                        .setColor(0x95A5A6)
+                        .setColor(0xFFFFFF)
                         .setThumbnail(client.user.displayAvatarURL())]
                 }).catch(() => {});
             }
@@ -124,7 +124,7 @@ module.exports = {
                     embeds: [new EmbedBuilder()
                         .setTitle(`${guildName} • Feedback`)
                         .setDescription('The confirmation time has expired.')
-                        .setColor(0x95A5A6)
+                        .setColor(0xFFFFFF)
                         .setThumbnail(client.user.displayAvatarURL())]
                 }).catch(() => {});
             }
