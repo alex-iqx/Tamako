@@ -15,6 +15,10 @@ const client = new Client({
 
 client.once(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user.tag}`);
+
+  client.user.setPresence({
+    activities: [{ name: 'DM me to send us feedback~ ❄️', type: ActivityType.Custom }]
+  });
 });
 
 client.on('messageCreate', (message) => {
