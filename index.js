@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Events, Partials } = require('discord.js');
+const { Client, GatewayIntentBits, Events, Partials, ActivityType } = require('discord.js');
 const { PREFIX, BOT_TOKEN } = require('./Util/constants');
 const feedback = require('./Modules/feedback');
 const path = require('path');
