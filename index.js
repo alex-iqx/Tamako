@@ -1,13 +1,16 @@
-const { Client, GatewayIntentBits, Events } = require('discord.js');
+const { Client, GatewayIntentBits, Events, Partials } = require('discord.js');
 const { PREFIX, BOT_TOKEN } = require('./Util/constants');
+const feedback = require('./Modules/feedback');
 const path = require('path');
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages
+  ],
+  partials: [Partials.Channel]
 });
 
 client.once(Events.ClientReady, () => {
@@ -16,6 +19,10 @@ client.once(Events.ClientReady, () => {
 
 client.on('messageCreate', (message) => {
   if (message.author.bot) return;
+
+  if (!message.guild) {
+    return feedback.handle(message, client).catch(() => {});
+  }
 
   if (!message.content.startsWith(PREFIX)) return;
 

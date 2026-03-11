@@ -4,5 +4,6 @@ module.exports = {
   PREFIX: process.env.PREFIX || '.',
   ALLOWED_ROLE_ID: process.env.ALLOWED_ROLE_ID,
   BOT_TOKEN: process.env.BOT_TOKEN,
-  APPLICATION_ID: process.env.APPLICATION_ID
+  APPLICATION_ID: process.env.APPLICATION_ID,
+  FEEDBACK_CHANNEL_ID: process.env.FEEDBACK_CHANNEL_ID
 };
