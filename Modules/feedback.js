@@ -85,7 +85,7 @@ module.exports = {
                         .replace(',', '');
 
                     const finalEmbed = new EmbedBuilder()
-                        .setTitle('Devs Notified ❄️')
+                        .setTitle('You have received a feedback!')
                         .setDescription(feedback.slice(0, 4096))
                         .setColor(0xFFFFFF)
                         .setThumbnail(guildIcon)
@@ -95,7 +95,7 @@ module.exports = {
 
                     await message.channel.send({
                         embeds: [new EmbedBuilder()
-                            .setTitle('Feedback Sent')
+                            .setTitle('Devs Notified ❄️')
                             .setDescription('Your feedback has been sent successfully. Thank you!')
                             .setColor(0xFFFFFF)
                             .setThumbnail(guildIcon)]
