@@ -1,17 +1,20 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { FEEDBACK_CHANNEL_ID } = require('../Util/constants');
 
-let cachedGuildName = null;
+let cachedGuild = null;
 
-async function getGuildName(client) {
-    if (cachedGuildName) return cachedGuildName;
+async function getGuildInfo(client) {
+    if (cachedGuild) return cachedGuild;
     try {
         const channel = await client.channels.fetch(FEEDBACK_CHANNEL_ID);
-        cachedGuildName = channel.guild.name;
+        cachedGuild = {
+            name: channel.guild.name,
+            iconURL: channel.guild.iconURL({ dynamic: true, size: 512 })
+        };
     } catch {
-        cachedGuildName = 'Server';
+        cachedGuild = { name: 'Server', iconURL: null };
     }
-    return cachedGuildName;
+    return cachedGuild;
 }
 
 module.exports = {
@@ -21,13 +24,13 @@ module.exports = {
         const feedback = (message.content || '').trim();
         if (!FEEDBACK_CHANNEL_ID || !feedback) return;
 
-        const guildName = await getGuildName(client);
+        const { name: guildName, iconURL: guildIcon } = await getGuildInfo(client);
 
         const confirmEmbed = new EmbedBuilder()
-            .setTitle(`${guildName} • Feedback`)
+            .setTitle('Send Feedback')
             .setDescription('Are you sure you want to send this message?')
             .setColor(0xFFFFFF)
-            .setThumbnail(client.user.displayAvatarURL());
+            .setThumbnail(guildIcon);
 
         const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
@@ -62,10 +65,10 @@ module.exports = {
                     if (!channel || !channel.isTextBased()) {
                         await message.channel.send({
                             embeds: [new EmbedBuilder()
-                                .setTitle(`${guildName} • Feedback`)
+                                .setTitle('Unavailable')
                                 .setDescription('I cannot send your feedback right now.')
                                 .setColor(0xFFFFFF)
-                                .setThumbnail(client.user.displayAvatarURL())]
+                                .setThumbnail(guildIcon)]
                         }).catch(() => {});
                         return;
                     }
@@ -82,37 +85,37 @@ module.exports = {
                         .replace(',', '');
 
                     const finalEmbed = new EmbedBuilder()
-                        .setTitle('You have received a feedback!')
+                        .setTitle('Devs Notified ❄️')
                         .setDescription(feedback.slice(0, 4096))
                         .setColor(0xFFFFFF)
-                        .setThumbnail(client.user.displayAvatarURL())
-                        .setFooter({ text: `Received at: ${formattedDate}` });
+                        .setThumbnail(guildIcon)
+                        .setFooter({ text: `Devs ❄️ ${guildName} • ${formattedDate}`, iconURL: guildIcon });
 
                     await channel.send({ embeds: [finalEmbed] }).catch(() => {});
 
                     await message.channel.send({
                         embeds: [new EmbedBuilder()
-                            .setTitle(`${guildName} • Feedback`)
+                            .setTitle('Feedback Sent')
                             .setDescription('Your feedback has been sent successfully. Thank you!')
                             .setColor(0xFFFFFF)
-                            .setThumbnail(client.user.displayAvatarURL())]
+                            .setThumbnail(guildIcon)]
                     }).catch(() => {});
                 } catch {
                     await message.channel.send({
                         embeds: [new EmbedBuilder()
-                            .setTitle(`${guildName} • Feedback`)
+                            .setTitle('Something Went Wrong')
                             .setDescription('An error occurred while sending your feedback.')
                             .setColor(0xFFFFFF)
-                            .setThumbnail(client.user.displayAvatarURL())]
+                            .setThumbnail(guildIcon)]
                     }).catch(() => {});
                 }
             } else {
                 await message.channel.send({
                     embeds: [new EmbedBuilder()
-                        .setTitle(`${guildName} • Feedback`)
+                        .setTitle('Feedback Cancelled')
                         .setDescription('Feedback sending has been cancelled.')
                         .setColor(0xFFFFFF)
-                        .setThumbnail(client.user.displayAvatarURL())]
+                        .setThumbnail(guildIcon)]
                 }).catch(() => {});
             }
         });
@@ -122,10 +125,10 @@ module.exports = {
                 await prompt.edit({ components: [] }).catch(() => {});
                 await message.channel.send({
                     embeds: [new EmbedBuilder()
-                        .setTitle(`${guildName} • Feedback`)
+                        .setTitle('Request Expired')
                         .setDescription('The confirmation time has expired.')
                         .setColor(0xFFFFFF)
-                        .setThumbnail(client.user.displayAvatarURL())]
+                        .setThumbnail(guildIcon)]
                 }).catch(() => {});
             }
         });
