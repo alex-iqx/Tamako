@@ -26,24 +26,17 @@ module.exports = {
 
         const { name: guildName, iconURL: guildIcon } = await getGuildInfo(client);
 
-        const now = new Date();
-        const formattedDate = now
-            .toLocaleString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            })
+        const getDate = () => new Date()
+            .toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
             .replace(',', '');
-        const dmFooter = `❄️ ${guildName} • ${formattedDate}`;
+        const dmFooter = () => `❄️ ${guildName} • ${getDate()}`;
 
         const confirmEmbed = new EmbedBuilder()
             .setTitle('Send Feedback')
             .setDescription('Are you sure you want to send this message?')
             .setColor(0xFFFFFF)
             .setThumbnail(guildIcon)
-            .setFooter({ text: dmFooter });
+            .setFooter({ text: dmFooter() });
 
         const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
@@ -82,7 +75,7 @@ module.exports = {
                                 .setDescription('I cannot send your feedback right now.')
                                 .setColor(0xFFFFFF)
                                 .setThumbnail(guildIcon)
-                                .setFooter({ text: dmFooter })]
+                                .setFooter({ text: dmFooter() })]
                         }).catch(() => {});
                         return;
                     }
@@ -92,7 +85,7 @@ module.exports = {
                         .setDescription(feedback.slice(0, 4096))
                         .setColor(0xFFFFFF)
                         .setThumbnail(guildIcon)
-                        .setFooter({ text: `Devs ❄️ ${guildName} • ${formattedDate}` });
+                        .setFooter({ text: `Devs ❄️ ${guildName} • ${getDate()}` });
 
                     await channel.send({ embeds: [finalEmbed] }).catch(() => {});
 
@@ -102,7 +95,7 @@ module.exports = {
                             .setDescription('Your feedback has been sent successfully. Thank you!')
                             .setColor(0xFFFFFF)
                             .setThumbnail(guildIcon)
-                            .setFooter({ text: dmFooter })]
+                            .setFooter({ text: dmFooter() })]
                     }).catch(() => {});
                 } catch {
                     await message.channel.send({
@@ -111,7 +104,7 @@ module.exports = {
                             .setDescription('An error occurred while sending your feedback.')
                             .setColor(0xFFFFFF)
                             .setThumbnail(guildIcon)
-                            .setFooter({ text: dmFooter })]
+                            .setFooter({ text: dmFooter() })]
                     }).catch(() => {});
                 }
             } else {
@@ -121,7 +114,7 @@ module.exports = {
                         .setDescription('Feedback sending has been cancelled.')
                         .setColor(0xFFFFFF)
                         .setThumbnail(guildIcon)
-                        .setFooter({ text: dmFooter })]
+                        .setFooter({ text: dmFooter() })]
                 }).catch(() => {});
             }
         });
@@ -135,7 +128,7 @@ module.exports = {
                         .setDescription('The confirmation time has expired.')
                         .setColor(0xFFFFFF)
                         .setThumbnail(guildIcon)
-                        .setFooter({ text: dmFooter })]
+                        .setFooter({ text: dmFooter() })]
                 }).catch(() => {});
             }
         });
