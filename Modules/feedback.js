@@ -91,7 +91,7 @@ module.exports = {
 
                     await message.channel.send({
                         embeds: [new EmbedBuilder()
-                            .setTitle('Devs Notified ❄️')
+                            .setTitle('Devs Notified')
                             .setDescription('Your feedback has been sent successfully. Thank you!')
                             .setColor(0xFFFFFF)
                             .setThumbnail(guildIcon)
