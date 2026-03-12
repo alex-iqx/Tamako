@@ -33,7 +33,7 @@ module.exports = {
 
         const confirmEmbed = new EmbedBuilder()
             .setTitle('Send Feedback')
-            .setDescription('Are you sure you want to send this message?')
+            .setDescription('Are you sure you want to send this message? Your feedback will be sent **anonymously**.')
             .setColor(0xFFFFFF)
             .setThumbnail(guildIcon)
             .setFooter({ text: dmFooter() });
